@@ -4,7 +4,7 @@ Description: >
   lambda-puppeteer
 
   Sample SAM Template for lambda-puppeteer
-  
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -23,6 +23,8 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+      Timeout: 900
+      MemorySize: 512
     Metadata:
       DockerTag: nodejs18.x-v1
       DockerContext: ./hello-world
