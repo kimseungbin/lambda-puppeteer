@@ -29,7 +29,7 @@ export const lambdaHandler = async (event, context) => {
                 '--no-zygote',
                 '--deterministic-fetch',
                 '--disable-features=IsolateOrigins',
-                '--disable-site-isolation-trials',
+                '--disable-site-isolation-trials'
             ],
             defaultViewport: chromium.defaultViewport,
             ignoreHTTPSErrors: true,
@@ -42,13 +42,11 @@ export const lambdaHandler = async (event, context) => {
         return {
             'statusCode': 200,
             'body': JSON.stringify({
-                message: await page.title(),
+                message: await page.title()
             })
         }
     } catch (err) {
-        console.log(err);
-        return err;
+        console.log(err)
+        return err
     }
-
-    return response
-};
+}

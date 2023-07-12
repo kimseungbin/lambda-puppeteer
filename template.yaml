@@ -27,7 +27,7 @@ Resources:
       MemorySize: 512
     Metadata:
       DockerTag: nodejs18.x-v1
-      DockerContext: ./hello-world
+      DockerContext: ./lambda
       Dockerfile: Dockerfile
 
 Outputs:

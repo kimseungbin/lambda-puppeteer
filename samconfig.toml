@@ -20,7 +20,6 @@ resolve_image_repos = true
 stack_name = "city"
 s3_prefix = "city"
 region = "ap-northeast-2"
-profile = "20230213"
 disable_rollback = true
 
 [default.package.parameters]
