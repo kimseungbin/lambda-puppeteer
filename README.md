@@ -22,7 +22,7 @@ This is an example repository of running [container image](https://www.docker.co
 
 tl;dr? Long story short, it is an AWS SAM template defining an AWS Lambda function based on a Docker container image. The image is a Node.js app with chrome installed. The app uses Puppeteer to execute a crawling job. The function is invoked periodically by an AWS Event Bridge schedule which is also defined in the template. And by using Git Submodules, it can import the code with business logic from a personal private repository.
 
-# How to run
+# How to deploy
 
 ## Prerequisites
 
@@ -31,6 +31,14 @@ To use the SAM CLI, you need the following tools.
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 
+
+```shell
+sam build
+```
+
+```shell
+sam deploy [--profile PROFILE_NAME]
+```
 
 [^1]: https://nodejs.org/en
 [^2]: https://pptr.dev/
