@@ -18,10 +18,10 @@ Resources:
       Architectures:
         - x86_64
       Events:
-        HelloWorld:
+        TestInvoke:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /
             Method: get
       Timeout: 900
       MemorySize: 512
@@ -36,7 +36,7 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   FunctionApi:
     Description: "API Gateway endpoint URL for Prod stage for the function. Test use only"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   Function:
     Description: "Lambda Function ARN"
     Value: !GetAtt Function.Arn
