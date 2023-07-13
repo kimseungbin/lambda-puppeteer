@@ -2,6 +2,11 @@ import { launch } from 'puppeteer-core'
 import chromium from '@sparticuz/chromium'
 
 /**
+ * @type {import('puppeteer-core').Browser}
+ */
+let browser
+
+/**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
  * @param {Object} event - API Gateway Lambda Proxy Input Format
@@ -16,8 +21,7 @@ import chromium from '@sparticuz/chromium'
 export const lambdaHandler = async (event, context) => {
 
     try {
-
-        const browser = await launch({
+         browser ??= await launch({
             headless: 'new',
             args: [
                 ...chromium.args,
