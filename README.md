@@ -56,6 +56,7 @@ export const lambdaHandler = async (event, context) => {
 }
 ```
 When invoking the function twice consequently:
+
 ![lambda-execution-speed-comparison-before.png](assets/lambda-execution-speed-comparison-before.png)
 The second invocation took **5552.88 ms**
 
@@ -74,7 +75,9 @@ export const lambdaHandler = async (event, context) => {
 ```
 
 When invoking the function twice consequently after refactoring:
+
 ![lambda-execution-speed-comparison-after.png](assets/lambda-execution-speed-comparison-after.png)
+
 The second invocation took **3260.48 ms**. The execution speed improved by **170%**
 
 
