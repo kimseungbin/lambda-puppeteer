@@ -40,6 +40,44 @@ sam build
 sam deploy [--profile PROFILE_NAME]
 ```
 
+
+# Improvements
+
+## Increasing Lambda function execution speed
+
+Creating Puppeteer's browser instance everytime the function is invoked was inefficient.
+```JS
+export const lambdaHandler = async (event, context) => {
+    //...
+   const browser = await launch({
+        //...
+   })
+   //...
+}
+```
+When invoking the function twice consequently:
+![lambda-execution-speed-comparison-before.png](assets/lambda-execution-speed-comparison-before.png)
+The second invocation took **5552.88 ms**
+
+Refactored browser instance to global scope, and create only if `browser` is `null` or `undefined` using `nullish coalescing assignment` operator.
+```JS
+/**
+ * @type {import('puppeteer-core').Browser}
+ */
+let browser
+
+export const lambdaHandler = async (event, context) => {
+    //...
+    browser ??= await createBrowserInstance()
+    //...
+}
+```
+
+When invoking the function twice consequently after refactoring:
+![lambda-execution-speed-comparison-after.png](assets/lambda-execution-speed-comparison-after.png)
+The second invocation took **3260.48 ms**. The execution speed improved by **170%**
+
+
 [^1]: https://nodejs.org/en
 [^2]: https://pptr.dev/
 [^3]: https://aws.amazon.com/lambda/?nc1=h_ls#How_it_works
