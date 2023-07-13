@@ -26,7 +26,7 @@ Resources:
       Timeout: 900
       MemorySize: 512
     Metadata:
-      DockerTag: nodejs18.x-v1
+      DockerTag: puppeteer
       DockerContext: ./lambda
       Dockerfile: Dockerfile
 
