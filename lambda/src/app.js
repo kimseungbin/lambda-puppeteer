@@ -1,5 +1,4 @@
-import { launch } from 'puppeteer-core'
-import chromium from '@sparticuz/chromium'
+import { createBrowserInstance } from './browser.js'
 
 /**
  * @type {import('puppeteer-core').Browser}
@@ -21,24 +20,7 @@ let browser
 export const lambdaHandler = async (event, context) => {
 
     try {
-         browser ??= await launch({
-            headless: 'new',
-            args: [
-                ...chromium.args,
-                '--disable-gpu',
-                '--disable-dev-shm-usage',
-                '--disable-setuid-sandbox',
-                '--no-first-run',
-                '--no-sandbox',
-                '--no-zygote',
-                '--deterministic-fetch',
-                '--disable-features=IsolateOrigins',
-                '--disable-site-isolation-trials'
-            ],
-            defaultViewport: chromium.defaultViewport,
-            ignoreHTTPSErrors: true,
-            executablePath: await chromium.executablePath()
-        })
+         browser ??= await createBrowserInstance()
 
         const [page] = await browser.pages()
         await page.goto('https://www.google.com', { waitUntil: 'networkidle2' })
