@@ -6,6 +6,6 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm ci
 
-COPY app.js ./
+COPY src ./
 
 CMD ["app.lambdaHandler"]
