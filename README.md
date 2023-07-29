@@ -81,6 +81,32 @@ When invoking the function twice consequently after refactoring:
 The second invocation took **3260.48 ms**. The execution speed improved by **170%**
 
 
+# Journey to creation of the repository
+
+## Background
+
+Having run an English-speaking meetup for 10 years, one of the most frustrating aspects has always been attracting new members. There's a website dedicated to meetup organizers like me to advertise and recruit new participants. However, this site, which I won't mention for privacy reasons, is swamped with around 400k users, including 80k daily active users. As a result, the advertisement board gets flooded with tons of posts every day, making it challenging for people to find what they're looking for due to the site's inaccurate and limited search indexing.
+
+What's worse is that many users don't even try to bother search for an English speaking meetup unless they are exposed to my ad, so I constantly have to post advertisements to keep my meetup on the first page of the board. Not only is this bad for the readers, but it's also a headache for those of us writing the posts. To create a post, users have to go through a cumbersome login process, which doesn't even support OAuth. Furthermore, the site's insistence on location service permission during login seems unrelated to its actual purpose – it's just poor development.
+
+After going through the hassle of logging in, users then have to navigate through a complicated board list menu to find the right section. Clicking the 'write new post' button requires filling out category, sub-category, title, and content fields. In my case, I had to copy and paste the title and content of my advertisement from a notes app repeatedly, as there are separate boards for advertisements, based on location and meetup type. All in all, it's a time-consuming and energy-draining process to repeat several times a day.
+
+## The first approach: Using a Headless Browser.
+
+To address these challenges, my initial solution was automation. As a JavaScript developer, Puppeteer[^2] was an obvious choice. Initially, I ran it on a local machine since I lacked cloud computing knowledge. However, relying on a cron job on a local machine proved unstable, as the computer sometimes needed to be shut down or faced internet connection failures.
+
+## Migration to the Cloud: AWS EC2
+
+For a few months, using a headless browser to post ads worked fine. But eventually, I decided to get rid of the desktop computer running the cron job and opted for a laptop, leading to the inevitable migration to a cloud environment. The easiest option was using AWs EC2, with the only adjustment being a change in the OS from macOS to Amazon Linux. Installing Chrome driver on Linux posed a small challenge, but overall, it worked smoothly.
+
+## Containerization: AWS ECS
+
+After a few years, the only recurring task was creating a new AWS account annually to maintain free tier benefits. Using AWS CloudFormation and its user data[&8], I effortlessly set upt the same environment. The major change this time was the site I was using. The site's structure and number of boards had changed, with some being created, merged and deleted. This meant I had to update my source code after years, and debugging became challenging due tot the development environment being macOS while the deployment environment was on Amazon Linux 2 and later on Amazon Linux 2023 during its transition. To tackle this, I decided to containerize the app using Docker and deployed the image via AWS ECS Fargate[^9].
+
+## Toward Serverless: AWS Lambda - Current
+
+Adopting ECs Fargate had many advantages; I didn't have to worry about sudden crashes or implement logging. However, its pricing became an issue, as it wasn't part of the AWS free tier. I wanted a solution that reduced effort on a repeating job through simple coding without incurring costs. This led me to migrate once again, this time to AWS Lambda function. Since there were limited references on running headless browser on Lambda, I decided to reuse the container image on Lambda too[^10]. As a result, the cron job now works smoothly on the Cloud without any cost!
+
 [^1]: https://nodejs.org/en
 [^2]: https://pptr.dev/
 [^3]: https://aws.amazon.com/lambda/?nc1=h_ls#How_it_works
@@ -88,3 +114,6 @@ The second invocation took **3260.48 ms**. The execution speed improved by **170
 [^5]: https://aws.amazon.com/serverless/sam/
 [^6]: https://git-scm.com/book/en/v2/Git-Tools-Submodules#_git_submodules
 [^7]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html
+[^8]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+[^9]: https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html
+[^10]: https://docs.aws.amazon.com/lambda/latest/dg/images-create.html
