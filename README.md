@@ -45,6 +45,7 @@ sam build
 sam deploy [--profile PROFILE_NAME]
 ```
 
+After deployment, the console will show Outputs. An output with Key name of FunctionApi has Value describing an URL which can execute the deployed sample Lambda function. Once executed, it will return `{"message":"Google"}`, which is the title of the site hard-coded in `lambda/src/app.js`
 
 # Improvements
 
