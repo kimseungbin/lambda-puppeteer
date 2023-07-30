@@ -38,7 +38,7 @@ To use the SAM CLI, you need the following tools.
 The Docker must be running in background!
 
 ```shell
-sam build
+sam build --template sample-template.yaml
 ```
 
 ```shell
