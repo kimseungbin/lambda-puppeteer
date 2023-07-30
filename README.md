@@ -1,5 +1,7 @@
 # Lambda Puppeteer
 
+[![kr](https://img.shields.io/badge/lang-kr-blue.svg)](./README.kr.md)
+
 This is an example repository of running [container image](https://www.docker.com/) based [AWS Lambda](https://aws.amazon.com/ko/lambda/) function containing [puppeteer](https://pptr.dev/).
 
 # What tech stacks used & what it actually does
