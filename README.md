@@ -2,10 +2,12 @@
 
 [![kr](https://img.shields.io/badge/lang-kr-blue.svg)](./README.kr.md)
 
-This is an example repository of running [container image](https://www.docker.com/) based [AWS Lambda](https://aws.amazon.com/ko/lambda/) function containing [puppeteer](https://pptr.dev/).
+This is an example repository of deploying [container image](https://www.docker.com/) based [AWS Lambda](https://aws.amazon.com/ko/lambda/) function containing [puppeteer](https://pptr.dev/) using AWS SAM.
 
 # What tech stacks used & what it actually does
+
 ![crawler.drawio.png](assets/crawler.drawio.png)
+
 1. Node.js
     > Node.js® is an open-source, cross-platform JavaScript runtime environment. [^1]
 2. Puppeteer
@@ -24,7 +26,9 @@ This is an example repository of running [container image](https://www.docker.co
 
 tl;dr? Long story short, it is an AWS SAM template defining an AWS Lambda function based on a Docker container image. The image is a Node.js app with chrome installed. The app uses Puppeteer to execute a crawling job. The function is invoked periodically by an AWS Event Bridge schedule which is also defined in the template. And by using Git Submodules, it can import the code with business logic from a personal private repository.
 
-# How to deploy
+# How to deploy `sample-template`
+
+This is a short guide to deploy `sample-template.yaml`. This template creates a Lambda function which navigates to the given website by a headless browser then returns the title of the page.
 
 ## Prerequisites
 
@@ -32,6 +36,8 @@ To use the SAM CLI, you need the following tools.
 
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+
+After installing those tools, create a profile or configure aws-cli with a valid AWS account/role.
 
 ## Commands
 
