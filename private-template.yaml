@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-puppeteer
+
+  Sample SAM Template for lambda-puppeteer
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Architectures:
+        - x86_64
+      Events:
+        TestInvoke:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+        Board1:
+          Type: ScheduleV2
+          Description: The schedule event for the first board.
+          Properties:
+            ScheduleExpression: "cron(30 0,8,12,16,20,22 ? * * *)"
+            ScheduleExpressionTimezone: Asia/Seoul
+            State: ENABLED
+            Input: |
+              {
+                "boardIndex": 0
+              }
+        Board2:
+          Type: ScheduleV2
+          Description: The schedule event for the second board.
+          Properties:
+            ScheduleExpression: 'cron(0 0,8,12,16,20,22 ? * * *)'
+            ScheduleExpressionTimezone: Asia/Seoul
+            State: ENABLED
+            Input: |
+              {
+                "boardIndex": 1
+              }
+      Timeout: 900
+      MemorySize: 512
+    Metadata:
+      DockerTag: city
+      DockerContext: ./private
+      Dockerfile: Dockerfile
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  FunctionApi:
+    Description: "API Gateway endpoint URL for Prod stage for the function. Test use only"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  Function:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt Function.Arn
+  FunctionIamRole:
+    Description: "Implicit IAM Role created for the function"
+    Value: !GetAtt FunctionRole.Arn
