@@ -81,6 +81,46 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+  AddMemberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dynamodb-crud/.
+      Handler: app.createMember
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Fn::Select:
+                - 1
+                - Fn::Split:
+                    - '/'
+                    - !GetAtt [ MemberTable, Arn ]
+      Events:
+        MyApi:
+          Type: Api
+          Properties:
+            Path: /members
+            Method: post
+  GetMembersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dynamodb-crud/.
+      Handler: app.getMembers
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName:
+              Fn::Select:
+                - 1
+                - Fn::Split:
+                    - '/'
+                    - !GetAtt [ MemberTable, Arn ]
+      Events:
+        MyApi:
+          Type: Api
+          Properties:
+            Path: /members
+            Method: get
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
