@@ -64,6 +64,23 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+  AttendanceTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: AttendanceTable
+      KeySchema:
+        - AttributeName: WeekID
+          KeyType: HASH
+        - AttributeName: MemberID
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: WeekID
+          AttributeType: S
+        - AttributeName: MemberID
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
